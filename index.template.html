@@ -1,0 +1,1244 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8">
+  <title>Game Engine</title>
+  
+
+</head>
+<body>
+<!-- partial:index.partial.html -->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WATER WORKS</title>
+    <style>
+        body { 
+            font-family: Arial, sans-serif; 
+            margin: 20px; 
+        }
+      h2 {
+    font-size: 32px;
+    font-weight: bold;
+    color: #1a73e8;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 40px;
+    padding-bottom: 15px;
+   
+    text-shadow: 1px 1px 2px rgba(26, 115, 232, 0.2);
+    position: relative;
+}
+
+h2::after {
+    content: '';
+    position: absolute;
+    bottom: -1px;
+    left: 0;
+    width: 1500px;
+    height: 6px;
+    background: #1a73e8;
+}
+      
+        .slider-container {
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    margin: 20px 0;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    max-width: 400px;
+}
+
+
+input[type="range"] {
+    -webkit-appearance: none;
+    width: 100%;
+    height: 8px;
+    border-radius: 4px;
+    margin: 10px 0;
+    background: linear-gradient(to right, #1a73e8 0%, #1a73e8 50%, #e0e0e0 50%, #e0e0e0 100%);
+}
+
+
+input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    height: 24px;
+    width: 24px;
+    border-radius: 50%;
+    background: white;
+    border: 3px solid #1a73e8;
+    cursor: pointer;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+    transition: all 0.2s ease;
+    margin-top: -1px; 
+}
+
+input[type="range"]::-webkit-slider-thumb:hover {
+    transform: scale(1.1);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+}
+
+/* Tick marks container */
+.tick-marks {
+    display: flex;
+    justify-content: space-between;
+    padding: 5px 10px;
+    color: #666;
+    font-size: 12px;
+}
+
+
+.slider-container label {
+    font-weight: bold;
+    color: #333;
+    display: block;
+    margin-bottom: 15px;
+    font-size: 16px;
+}
+
+
+.slider-container label span {
+    float: right;
+    color: #1a73e8;
+    font-size: 18px;
+}
+        .tab-container {
+    display: flex;
+    margin-top: 20px;
+    gap: 8px;
+    border-bottom: 2px solid #e0e0e0;
+    padding-bottom: 0;
+}
+
+        .tab {
+    padding: 12px 24px;
+    cursor: pointer;
+    background: #f8f9fa;
+    border: none;
+    border-radius: 8px 8px 0 0;
+    font-weight: 500;
+    color: #666;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.tab:hover {
+    background: #e9ecef;
+    color: #1a73e8;
+}
+
+.tab.active {
+    background: #1a73e8;
+    color: white;
+}
+      .tab.active::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: #1a73e8;
+}
+
+        .tab-content {
+            display: none;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-top: none;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+        }
+        .tab-content.active {
+            display: grid;
+        }
+        .chart {
+            width: 100%;
+            height: 400px;
+        }
+      .network-map-button {
+            padding: 10px 20px;
+            background-color: #1a73e8;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-bottom: 20px;
+        }
+        .network-map-button:hover {
+            background-color: #1557b0;
+        }
+        .map-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.7);
+            z-index: 1000;
+        }
+        .map-content {
+            position: relative;
+            width: 95%;
+            height: 95%;
+            margin: 2% auto;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+        }
+         .close-map {
+        position: absolute;
+        left: 20px;
+        top: 10px;
+        font-size: 24px;
+        cursor: pointer;
+        color: #333;
+    }
+        .map-frame {
+            width: 100%;
+            height: calc(100% - 40px);
+            border: none;
+        }
+      .game-button {
+    padding: 12px 24px;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: bold;
+    color: white;
+    background: linear-gradient(145deg, #1a73e8, #1557b0);
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-right: 10px;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.game-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+    background: linear-gradient(145deg, #1557b0, #1a73e8);
+}
+
+.game-button:active {
+    transform: translateY(1px);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.game-button:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+    transform: none;
+}
+     
+      .score-container {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    display: flex;
+    gap: 15px;
+    z-index: 100;
+}
+
+.score-box {
+    background: linear-gradient(145deg, #ffffff, #f0f0f0);
+    padding: 15px 25px;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    transition: transform 0.3s ease;
+}
+
+.score-box:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+}
+
+.score-label {
+    font-weight: bold;
+    color: #333;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 5px;
+}
+
+.score-value {
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.total-score .score-value {
+    color: #1a73e8;
+    text-shadow: 1px 1px 2px rgba(26, 115, 232, 0.2);
+}
+
+.bank-balance .score-value {
+    color: #34a853;
+    text-shadow: 1px 1px 2px rgba(52, 168, 83, 0.2);
+}
+         
+.instructions-panel {
+   position: absolute;
+   left: 650px;  
+   top: 120px;
+   width: 600px;
+   margin-left: 20px;
+}
+
+.instructions-title {
+    color: #1a73e8;
+    font-size: 24px;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 20px;
+    letter-spacing: 1px;
+}
+
+.instructions-content {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+}
+
+.instruction-step {
+    background: #f8f9fa;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+   max-width: 300px;
+
+}
+
+.step-title {
+    color: #1a73e8;
+    font-weight: bold;
+    margin-bottom: 10px;
+    font-size: 16px;
+}
+
+.step-content {
+    color: #333;
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+.highlight {
+    color: #1a73e8;
+    font-weight: 500;
+}
+      .splash-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(145deg, #1a73e8, #1557b0);
+    z-index: 9999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    animation: fadeOut 1s ease 2s forwards;
+}
+
+.splash-content {
+    text-align: center;
+}
+
+.level-text {
+    font-size: 84px;
+    color: white;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 8px;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+    animation: scaleIn 0.5s ease-out;
+}
+
+@keyframes fadeOut {
+    from { opacity: 1; }
+    to { opacity: 0; visibility: hidden; }
+}
+
+@keyframes scaleIn {
+    from { transform: scale(0); }
+    to { transform: scale(1); }
+}
+     .welcome-modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.8);
+    z-index: 9998;
+    justify-content: center;
+    align-items: center;
+}
+
+.welcome-content {
+   background: white;
+   padding: 30px;
+   border-radius: 12px;
+   max-width: 800px;
+   width: 90%;
+   box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+   line-height: 1.4;
+}
+
+.typing-text {
+   font-size: 18px;
+   margin-bottom: 20px;
+   color: #333;
+}
+
+.get-started {
+    margin: 0 auto;
+    display: block;
+}
+      
+      .pipe-break-modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.8);
+    z-index: 9998;
+    justify-content: center;
+    align-items: center;
+}
+
+.pipe-break-content {
+    background: white;
+    padding: 40px;
+    border-radius: 12px;
+    max-width: 600px;
+    width: 90%;
+    text-align: center;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+}
+
+.pipe-break-text {
+    font-size: 24px;
+    color: #92140c;
+    margin: 20px 0;
+    font-weight: bold;
+}
+
+.pipe-break-button {
+    padding: 12px 24px;
+    background: #1a73e8;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+    margin-top: 20px;
+}
+      .coming-soon-modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.8);
+    z-index: 9998;
+    justify-content: center;
+    align-items: center;
+}
+
+.coming-soon-content {
+    background: white;
+    padding: 40px;
+    border-radius: 12px;
+    max-width: 600px;
+    width: 90%;
+    text-align: center;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+}
+
+.coming-soon-text {
+    font-size: 24px;
+    color: #1a73e8;
+    margin: 20px 0;
+    font-weight: bold;
+}
+
+.coming-soon-button {
+    padding: 12px 24px;
+    background: #1a73e8;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+    margin-top: 20px;
+}
+    </style>
+    <!-- Load Google Charts library -->
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+</head>
+<body>
+  <div class="splash-screen">
+    <div class="splash-content">
+        <div class="level-text">LEVEL 1</div>
+    </div>
+</div>
+  
+  <div class="welcome-modal">
+    <div class="welcome-content">
+        <div class="typing-text"></div>
+        <button class="game-button get-started" onclick="closeWelcome()">Get Started!</button>
+    </div>
+</div>
+  
+  <div class="pipe-break-modal">
+    <div class="pipe-break-content">
+        <lord-icon
+            src="https://cdn.lordicon.com/cqifnoec.json"
+            trigger="loop"
+            state="loop-cycle"
+            style="width:250px;height:250px">
+        </lord-icon>
+        <div class="pipe-break-text">Oh No! You've had a pipe break in your network.<br>You owe $10,000 in repairs.</div>
+        <button class="pipe-break-button" onclick="closePipeBreakModal()">Continue</button>
+    </div>
+</div>
+
+<div class="coming-soon-modal">
+    <div class="coming-soon-content">
+        <lord-icon
+            src="https://cdn.lordicon.com/nphieykw.json"
+            trigger="loop"
+            state="loop-cycle"
+            style="width:250px;height:250px">
+        </lord-icon>
+        <div class="coming-soon-text">Unfortunately, Level 2 has not been developed yet. This Scenario is coming soon. Check back later for updates. Until then feel free to run more simulations, there is more than one correct solution for the Level 1 scenario.</div>
+        <button class="coming-soon-button" onclick="closeComingSoonModal()">OK</button>
+    </div>
+</div>
+  
+    <h2>WATER WORKS - A Water Distribution Network Game</h2>
+  <div class="instructions-panel">
+    <div class="instructions-title">Welcome to Water Works: A Water Distribution Network Game!</div>
+    <p style="text-align: center; margin-bottom: 20px;">Take on the role of a water system operator and master the art of water distribution while balancing customer satisfaction and financial sustainability.</p>
+    <div class="instructions-content">
+        <div class="instruction-step">
+            <div class="step-title">1. Explore the Network</div>
+            <div class="step-content">
+                Click <span class="highlight">Show Network Map</span> to view the system layout and understand your network's structure. Study community patterns and constraints to build your strategy.
+            </div>
+        </div>
+        <div class="instruction-step">
+            <div class="step-title">2. Set Parameters</div>
+            <div class="step-content">
+                Adjust <span class="highlight">Initial Chlorine</span> for water quality and <span class="highlight">Water Rate</span> to influence revenue and demand.
+            </div>
+        </div>
+        <div class="instruction-step">
+            <div class="step-title">3. Run & Analyze</div>
+            <div class="step-content">
+                Click <span class="highlight">Run Simulation</span> and monitor performance across all metrics. Use the data to refine your strategy and aim for the highest score!
+            </div>
+        </div>
+    </div>
+</div>
+  
+<button class="game-button" onclick="toggleMap()">Show Network Map</button>
+<button class="game-button" onclick="fetchAndDrawCharts()">Run Simulation</button>
+  
+  
+  
+  <!-- Score Display -->
+  <div class="score-container">
+    <div class="score-box total-score">
+        <div class="score-label">Total Score</div>
+        <div id="total-score" class="score-value">0</div>
+    </div>
+    <div class="score-box bank-balance">
+        <div class="score-label">Bank Account</div>
+        <div id="bank-balance" class="score-value">$5,000</div>
+    </div>
+</div>
+    
+</div>
+  
+  <!-- Network Map Modal -->
+    <div id="mapModal" class="map-modal">
+        <div class="map-content">
+            <span class="close-map" onclick="toggleMap()">&times;</span>
+            <iframe class="map-frame" src="https://jadamshell.github.io/WTP_NETWORK/"></iframe>
+        </div>
+    </div>
+  
+    <!-- Sliders for Initial Chlorine and Water Rate -->
+    <div class="slider-container">
+    <label for="chlorine-slider">Initial Chlorine (mg/L) <span id="chlorine-value">1</span></label>
+    <input type="range" id="chlorine-slider" min="1" max="4" step="0.5" value="1" onchange="updateSliderValue('chlorine'); updateSliderBackground(this)">
+    <div class="tick-marks">
+    <span>1.0</span>
+    <span>1.5</span>
+    <span>2.0</span>
+    <span>2.5</span>
+    <span>3.0</span>
+    <span>3.5</span>
+    <span>4.0</span>
+</div>
+</div>
+
+<div class="slider-container">
+    <label for="water-rate-slider">Water Rate ($) <span id="water-rate-value">1</span></label>
+    <input type="range" id="water-rate-slider" min="1" max="20" step="1" value="1" onchange="updateSliderValue('water-rate'); updateSliderBackground(this)">
+    <div class="tick-marks">
+        <span>1</span>
+        <span>5</span>
+        <span>10</span>
+        <span>15</span>
+        <span>20</span>
+    </div>
+</div>
+
+    <!-- Tabbed Navigation -->
+    <div class="tab-container">
+        <div class="tab active" onclick="showTab('demand')">Demand</div>
+        <div class="tab" onclick="showTab('pressure')">Pressure</div>
+        <div class="tab" onclick="showTab('head')">Head</div>
+        <div class="tab" onclick="showTab('chlorine')">Chlorine</div>
+    </div>
+
+    <!-- Tab Contents -->
+    <div id="demand" class="tab-content active">
+        <div id="chart-node-10-demand" class="chart"></div>
+        <div id="chart-node-11-demand" class="chart"></div>
+        <div id="chart-node-12-demand" class="chart"></div>
+        <div id="chart-node-13-demand" class="chart"></div>
+        <div id="chart-node-21-demand" class="chart"></div>
+        <div id="chart-node-22-demand" class="chart"></div>
+        <div id="chart-node-23-demand" class="chart"></div>
+        <div id="chart-node-31-demand" class="chart"></div>
+        <div id="chart-node-32-demand" class="chart"></div>
+    </div>
+
+    <div id="pressure" class="tab-content">
+        <div id="chart-node-10-pressure" class="chart"></div>
+        <div id="chart-node-11-pressure" class="chart"></div>
+        <div id="chart-node-12-pressure" class="chart"></div>
+        <div id="chart-node-13-pressure" class="chart"></div>
+        <div id="chart-node-21-pressure" class="chart"></div>
+        <div id="chart-node-22-pressure" class="chart"></div>
+        <div id="chart-node-23-pressure" class="chart"></div>
+        <div id="chart-node-31-pressure" class="chart"></div>
+        <div id="chart-node-32-pressure" class="chart"></div>
+    </div>
+
+    <div id="head" class="tab-content">
+        <div id="chart-node-10-head" class="chart"></div>
+        <div id="chart-node-11-head" class="chart"></div>
+        <div id="chart-node-12-head" class="chart"></div>
+        <div id="chart-node-13-head" class="chart"></div>
+        <div id="chart-node-21-head" class="chart"></div>
+        <div id="chart-node-22-head" class="chart"></div>
+        <div id="chart-node-23-head" class="chart"></div>
+        <div id="chart-node-31-head" class="chart"></div>
+        <div id="chart-node-32-head" class="chart"></div>
+    </div>
+
+    <div id="chlorine" class="tab-content">
+        <div id="chart-node-10-chlorine" class="chart"></div>
+        <div id="chart-node-11-chlorine" class="chart"></div>
+        <div id="chart-node-12-chlorine" class="chart"></div>
+        <div id="chart-node-13-chlorine" class="chart"></div>
+        <div id="chart-node-21-chlorine" class="chart"></div>
+        <div id="chart-node-22-chlorine" class="chart"></div>
+        <div id="chart-node-23-chlorine" class="chart"></div>
+        <div id="chart-node-31-chlorine" class="chart"></div>
+        <div id="chart-node-32-chlorine" class="chart"></div>
+    </div>
+
+    <script>
+    google.charts.load('current', {'packages':['corechart']});
+
+    const ANIMATION_DURATION = 3000;
+    let chartsCompleted = 0;
+    let totalChartsToAnimate = 0;
+    const nodes = [10, 11, 12, 13, 21, 22, 23, 31, 32];
+    let chartData = {};
+
+    const yAxisSettings = {
+        Demand: { label: 'GPM', min: 0, max: 100 },
+        Pressure: { 
+            label: 'psi', 
+            min: 0, 
+            max: 120,
+            thresholds: {
+                lower: 20,
+                upper: 100
+            }
+        },
+        Head: { label: 'ft', min: 0, max: 1500 },
+        Chlorine: { 
+            label: 'mg/L', 
+            min: 0, 
+            max: 5,
+            thresholds: {
+                lower: 0.5,
+                upper: 4.0
+            }
+        }
+    };
+      
+      function updateSliderBackground(slider) {
+    const value = (slider.value - slider.min) / (slider.max - slider.min) * 100;
+    slider.style.background = `linear-gradient(to right, #1a73e8 0%, #1a73e8 ${value}%, #e0e0e0 ${value}%, #e0e0e0 100%)`;
+}
+
+// Initialize slider backgrounds
+document.querySelectorAll('input[type="range"]').forEach(slider => {
+    updateSliderBackground(slider);
+    slider.addEventListener('input', () => updateSliderBackground(slider));
+});
+      
+      function toggleMap() {
+            const modal = document.getElementById('mapModal');
+            modal.style.display = modal.style.display === 'block' ? 'none' : 'block';
+        }
+
+        // Close map when clicking outside
+        window.onclick = function(event) {
+            const modal = document.getElementById('mapModal');
+            if (event.target === modal) {
+                modal.style.display = 'none';
+            }
+        }
+
+    function animateValue(elementId, start, end, duration) {
+    const element = document.getElementById(elementId);
+    const range = end - start;
+    const increment = range / (duration / 16);
+    let current = start;
+    
+    const timer = setInterval(() => {
+        current += increment;
+        if ((increment > 0 && current >= end) || (increment < 0 && current <= end)) {
+            current = end;
+            clearInterval(timer);
+        }
+        if (elementId === 'bank-balance') {
+            element.textContent = '$' + current.toLocaleString('en-US', { maximumFractionDigits: 2 });
+            element.style.color = current < 0 ? '#92140c' : '#34a853';
+        } else {
+            element.textContent = current.toFixed(2);
+        }
+    }, 16);
+}
+
+   function updateScores(reportData) {
+    const currentBank = parseFloat(document.getElementById('bank-balance').textContent.replace('$', '').replace(',', ''));
+    
+    // Only update scores if pass criteria is true
+    if (reportData.passCriteria === 'true') {
+        animateValue('total-score', 0, reportData.totalScore || 0, 2000);
+        animateValue('bank-balance', currentBank, currentBank + (reportData.profitLoss || 0), 2000);
+    }
+}
+      let currentLevel = 1;
+
+function handleModalClose(passStatus) {
+    const modals = document.querySelectorAll('[style*="position: fixed"]');
+    const overlay = document.querySelector('.modal-overlay');
+    
+    modals.forEach(modal => modal.remove());
+    if (overlay) overlay.remove();
+    
+    if (passStatus === 'Pass') {
+        currentLevel++;
+        showLevelSplash();
+    }
+}
+      // functions for level progression
+function showLevelSplash() {
+    if (document.querySelector('.modal-overlay')) {
+        document.querySelector('.modal-overlay').remove();
+    }
+    const splash = document.createElement('div');
+    splash.className = 'splash-screen';
+    splash.innerHTML = `
+        <div class="splash-content">
+            <div class="level-text">LEVEL ${currentLevel}</div>
+        </div>
+    `;
+    document.body.appendChild(splash);
+
+    if (currentLevel === 2) {
+        setTimeout(() => {
+            splash.remove();
+            showPipeBreakEvent();
+        }, 3000);
+    } else {
+        setTimeout(() => {
+            splash.remove();
+        }, 3000);
+    }
+}
+
+function showPipeBreakEvent() {
+    const modal = document.querySelector('.pipe-break-modal');
+    modal.style.display = 'flex';
+    
+   
+    if (!document.querySelector('script[src="https://cdn.lordicon.com/lordicon.js"]')) {
+        const script = document.createElement('script');
+        script.src = "https://cdn.lordicon.com/lordicon.js";
+        document.head.appendChild(script);
+    }
+}
+
+function closePipeBreakModal() {
+    const modal = document.querySelector('.pipe-break-modal');
+    modal.style.display = 'none';
+    
+    const bankElement = document.getElementById('bank-balance');
+    const currentBalance = parseFloat(bankElement.textContent.replace('$', '').replace(',', ''));
+    animateValue('bank-balance', currentBalance, currentBalance - 10000, 2000);
+
+    setTimeout(() => {
+        document.querySelector('.coming-soon-modal').style.display = 'flex';
+    }, 1000);
+}
+
+function closeComingSoonModal() {
+    document.querySelector('.coming-soon-modal').style.display = 'none';
+}
+
+    function showReportModal(reportData) {
+        const modal = document.createElement('div');
+        modal.style.cssText = `
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            max-width: 800px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+            z-index: 1000;
+        `;
+
+        const getDisplayValue = (value, passStatus) => {
+            if (!passStatus || isNaN(value) || value === null || value === undefined) {
+                return '0*';
+            }
+            return value.toFixed(2);
+        };
+
+        const content = document.createElement('div');
+        const passStatus = reportData.passCriteria === 'true' ? 'Pass' : 'Fail';
+        const buttonText = reportData.passCriteria === 'true' ? 'Proceed to Next Level' : 'Try Again';
+        
+        if (!document.querySelector('script[src="https://cdn.lordicon.com/lordicon.js"]')) {
+            const script = document.createElement('script');
+            script.src = "https://cdn.lordicon.com/lordicon.js";
+            document.head.appendChild(script);
+        }
+        
+        content.innerHTML = `
+            <h2 style="text-align: center; margin-bottom: 20px;">Simulation Complete</h2>
+            <div style="display: flex; justify-content: center; align-items: center; margin-bottom: 30px;">
+                ${passStatus === 'Pass' ? `
+                    <lord-icon
+                        src="https://cdn.lordicon.com/dangivhk.json"
+                        trigger="in"
+                        delay="500"
+                        state="in-reveal"
+                        style="width:250px;height:250px">
+                    </lord-icon>
+                    <span style="
+                        font-size: 175px; 
+                        color: #08a88a; 
+                        margin-left: 20px;
+                        -webkit-text-stroke: 2px black;
+                        -moz-text-stroke: 2px black;
+                        text-stroke: 2px black;
+                        text-shadow: 
+                            -2px -2px 0 #000,  
+                            2px -2px 0 #000,
+                            -2px 2px 0 #000,
+                            2px 2px 0 #000;">PASS</span>
+                ` : `
+                    <lord-icon
+                        src="https://cdn.lordicon.com/jxzkkoed.json"
+                        trigger="in"
+                        style="width:250px;height:250px">
+                    </lord-icon>
+                    <span style="font-size: 175px; color: #92140c; margin-left: 20px;">FAIL</span>
+                `}
+            </div>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; background: #f8f9fa; padding: 20px; border-radius: 8px; margin-bottom: 20px;">
+                <div style="padding: 10px; background: white; border-radius: 4px; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
+                    <strong>Average Demand:</strong> ${reportData.avgDemand.toFixed(2)} GPM
+                </div>
+                <div style="padding: 10px; background: white; border-radius: 4px; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
+                    <strong>Average Pressure:</strong> ${reportData.avgPressure.toFixed(2)} psi
+                </div>
+                <div style="padding: 10px; background: white; border-radius: 4px; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
+                    <strong>Average Chlorine:</strong> ${reportData.avgChlorine.toFixed(2)} mg/L
+                </div>
+                <div style="padding: 10px; background: white; border-radius: 4px; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
+                    <strong>Total Revenue:</strong> $${reportData.totalRevenue.toFixed(2)}
+                </div>
+                <div style="padding: 10px; background: white; border-radius: 4px; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
+                    <strong>Pump Cost Per Week:</strong> $${reportData.pumpCost.toFixed(2)}
+                </div>
+                <div style="padding: 10px; background: white; border-radius: 4px; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
+                    <strong>O&M Cost Per Week:</strong> $${reportData.omCost.toFixed(2)}
+                </div>
+                <div style="padding: 10px; background: white; border-radius: 4px; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
+                    <strong>Total Weekly Cost:</strong> $${reportData.totalCost.toFixed(2)}
+                </div>
+                <div style="padding: 10px; background: white; border-radius: 4px; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
+                    <strong>Profit/Loss:</strong> $${reportData.profitLoss.toFixed(2)}
+                </div>
+                <div style="padding: 10px; background: white; border-radius: 4px; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
+                    <strong>Revenue Score:</strong> ${getDisplayValue(reportData.revScore, reportData.passCriteria === 'true')}
+                </div>
+                <div style="padding: 10px; background: white; border-radius: 4px; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
+                    <strong>Customer Satisfaction:</strong> ${getDisplayValue(reportData.custSatScore, reportData.passCriteria === 'true')}
+                </div>
+                <div style="padding: 10px; background: white; border-radius: 4px; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
+                    <strong>Total Score:</strong> ${getDisplayValue(reportData.totalScore, reportData.passCriteria === 'true')}
+                </div>
+            </div>
+            <div style="margin-top: 20px; font-size: 0.9em; color: #666; border-top: 1px solid #eee; padding-top: 10px;">
+                * Values of 0* indicate no data available
+                <br><br>
+                The Total Score has been calculated to incorporate penalties for failing simulations (i.e., those with customer satisfaction below 75 or negative profit). Failing simulations are assigned a score of 0, while passing simulations are scored based on their revenue and customer satisfaction.
+            </div>
+           <button onclick="handleModalClose(\'${passStatus}\')" style="
+    display: block;
+    margin: 20px auto 0;
+    padding: 12px 24px;
+    background: ${passStatus === 'Pass' ? '#08a88a' : '#92140c'};
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: opacity 0.2s;
+">${buttonText}</button>
+        `;
+
+        modal.appendChild(content);
+
+        const overlay = document.createElement('div');
+        overlay.className = 'modal-overlay';
+        overlay.style.cssText = `
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.5);
+            z-index: 999;
+        `;
+        overlay.onclick = () => {
+            overlay.remove();
+            modal.remove();
+        };
+
+        document.body.appendChild(overlay);
+        document.body.appendChild(modal);
+    }
+
+    // Update slider value display
+    function updateSliderValue(type) {
+        const value = document.getElementById(`${type}-slider`).value;
+        document.getElementById(`${type}-value`).textContent = value;
+    }
+
+    // Function to show the selected tab and redraw charts
+    function showTab(tabName) {
+        document.querySelectorAll('.tab').forEach(tab => {
+            tab.classList.remove('active');
+        });
+        document.querySelectorAll('.tab-content').forEach(content => {
+            content.classList.remove('active');
+        });
+        document.querySelector(`.tab[onclick="showTab('${tabName}')"]`).classList.add('active');
+        document.getElementById(tabName).classList.add('active');
+
+        if (Object.keys(chartData).length > 0) {
+            Object.keys(chartData).forEach(key => {
+                if (key.includes(tabName)) {
+                    drawAnimatedChart(key, chartData[key].data, chartData[key].title, yAxisSettings[chartData[key].metric], false);
+                }
+            });
+        }
+    }
+
+    // Draw the animated chart with completion tracking
+    function drawAnimatedChart(elementId, dataArray, title, yAxisConfig, animate = true) {
+        const TOTAL_HOURS = 168;
+        const STEP_SIZE = 4; // Skip points to speed up animation
+        const STEP_DELAY = animate ? ANIMATION_DURATION / (TOTAL_HOURS / STEP_SIZE) : 0;
+        let currentHour = 0;
+
+      function drawFrame() {
+    let data;
+    if (yAxisConfig.thresholds) {
+        data = new google.visualization.DataTable();
+        data.addColumn('number', 'Time (Hrs)');
+        data.addColumn('number', 'Value');
+        data.addColumn('number', 'Lower Threshold');
+        data.addColumn('number', 'Upper Threshold');
+        
+        for (let i = 1; i <= (animate ? currentHour + 1 : dataArray.length - 1); i++) {
+            if (dataArray[i]) {
+                data.addRow([
+                    dataArray[i][0],
+                    dataArray[i][1],
+                    yAxisConfig.thresholds.lower,
+                    yAxisConfig.thresholds.upper
+                ]);
+            }
+        }
+    } else {
+        data = new google.visualization.DataTable();
+        data.addColumn('number', 'Time (Hrs)');
+        data.addColumn('number', 'Value');
+        
+        for (let i = 1; i <= (animate ? currentHour + 1 : dataArray.length - 1); i++) {
+            if (dataArray[i]) {
+                data.addRow([dataArray[i][0], dataArray[i][1]]);
+            }
+        }
+    }
+
+    let options = {
+        title: title,
+        hAxis: {
+            title: 'Time (Hrs)',
+            ticks: [...Array(8)].map((_, i) => i * 24),
+            viewWindow: { min: 0, max: 168 }
+        },
+        vAxis: {
+            title: yAxisConfig.label,
+            format: 'decimal',
+            viewWindow: { min: yAxisConfig.min, max: yAxisConfig.max },
+            gridlines: { count: 5 }
+        },
+        chartArea: { left: 60, top: 40, width: '80%', height: '70%' },
+        legend: { position: 'none' },
+        curveType: 'function'
+    };
+
+    if (yAxisConfig.thresholds) {
+        options.series = {
+            0: { color: '#1a73e8', lineWidth: 2 },
+            1: { color: '#ff4444', lineWidth: 1, lineDashStyle: [4, 4] },
+            2: { color: '#ff4444', lineWidth: 1, lineDashStyle: [4, 4] }
+        };
+    }
+
+    const chart = new google.visualization.LineChart(document.getElementById(elementId));
+    chart.draw(data, options);
+
+    if (animate && currentHour < TOTAL_HOURS) {
+        currentHour += STEP_SIZE;
+        setTimeout(drawFrame, STEP_DELAY);
+    } else if (animate) {
+        chartsCompleted++;
+       if (chartsCompleted === totalChartsToAnimate) {
+    window.setTimeout(() => {
+        updateScores(window.reportDataToShow);
+        showReportModal(window.reportDataToShow);
+        const simButton = document.querySelector('button[onclick="fetchAndDrawCharts()"]');
+        simButton.disabled = false;
+        simButton.textContent = 'Run Simulation';
+    }, 500);
+}
+
+    }
+}
+
+drawFrame();
+    }
+
+    // Fetch and filter the CSV data from GitHub
+  
+async function fetchAndDrawCharts() {
+    const simButton = document.querySelector('button[onclick="fetchAndDrawCharts()"]');
+    simButton.textContent = 'Loading...';
+    
+    try {
+        const response = await fetch('https://raw.githubusercontent.com/jadamshell/gwg/refs/heads/main/Game_Data_edit (1).csv');
+        if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
+        
+        const text = await response.text();
+        const rows = text.split('\n').map(row => row.split(','));
+
+        const chlorine = Number(document.getElementById('chlorine-slider').value);
+        const waterRate = Number(document.getElementById('water-rate-slider').value);
+
+        let simNumber;
+        const headers = rows[0];
+        const simIndex = headers.indexOf('Q and WQ Sim');
+        const initialChlorineIdx = headers.indexOf('Initial Chlorine');
+        const waterRateIdx = headers.indexOf('Water Rate');
+        const timeIdx = headers.indexOf('Time (Hrs)');
+
+        const nodeIndices = {};
+        nodes.forEach(node => {
+            nodeIndices[node] = {
+                Demand: headers.indexOf(`Node ${node} Demand (GPM)`),
+                Pressure: headers.indexOf(`Node ${node} Pressure (psi)`),
+                Head: headers.indexOf(`Node ${node} Head (ft)`),
+                Chlorine: headers.indexOf(`Node ${node} Chlorine (mg/L)`)
+            };
+        });
+
+        for (let i = 1; i < rows.length; i++) {
+            if (Number(rows[i][initialChlorineIdx]) === chlorine && 
+                Number(rows[i][waterRateIdx]) === waterRate) {
+                simNumber = Number(rows[i][simIndex]);
+                break;
+            }
+        }
+
+        chartData = {};
+        const metrics = ['Demand', 'Pressure', 'Head', 'Chlorine'];
+
+        metrics.forEach(metric => {
+            nodes.forEach(node => {
+                const filteredData = [['Time (Hrs)', `Node ${node} ${metric}`]];
+                let lastTime = -1;
+
+                for (let i = 1; i < rows.length; i++) {
+                    const row = rows[i];
+                    const csvChlorine = Number(row[initialChlorineIdx]);
+                    const csvWaterRate = Number(row[waterRateIdx]);
+                    const time = parseInt(row[timeIdx]);
+
+                    if (time !== lastTime && csvChlorine === chlorine && csvWaterRate === waterRate) {
+                        const value = parseFloat(row[nodeIndices[node][metric]]);
+                        if (!isNaN(value) && !isNaN(time)) {
+                            filteredData.push([time, value]);
+                            lastTime = time;
+                        }
+                    }
+                }
+
+                const chartKey = `chart-node-${node}-${metric.toLowerCase()}`;
+                chartData[chartKey] = {
+                    data: filteredData,
+                    title: `Node ${node} ${metric}`,
+                    metric: metric
+                };
+            });
+        });
+
+        const reportResponse = await fetch('https://raw.githubusercontent.com/jadamshell/gwg/refs/heads/main/Game_Data_edit (1).csv');
+        if (!reportResponse.ok) throw new Error(`HTTP error! Status: ${reportResponse.status}`);
+        
+        const reportText = await reportResponse.text();
+        const reportRows = reportText.split('\n').map(row => row.split(','));
+        const reportHeaders = reportRows[0];
+        const reportData = {};
+
+        for (let i = 1; i < reportRows.length; i++) {
+            const row = reportRows[i];
+            if (Number(row[reportHeaders.indexOf('SimulationR')]) === simNumber) {
+                reportData.avgDemand = Number(row[reportHeaders.indexOf('Average Demand')]);
+                reportData.avgPressure = Number(row[reportHeaders.indexOf('Average Pressure')]);
+                reportData.avgChlorine = Number(row[reportHeaders.indexOf('Average Chlorine')]);
+                reportData.totalRevenue = Number(row[reportHeaders.indexOf('Total Revenue')]);
+                reportData.pumpCost = Number(row[reportHeaders.indexOf('Pump Cost Per Week')]);
+                reportData.omCost = Number(row[reportHeaders.indexOf('O&M Cost Per Week')]);
+                reportData.totalCost = Number(row[reportHeaders.indexOf('Total Weekly Cost')]);
+                reportData.profitLoss = Number(row[reportHeaders.indexOf('Profit/Loss')]);
+                reportData.revScore = Number(row[reportHeaders.indexOf('Standardized Revenue Score')]);
+                reportData.custSatScore = Number(row[reportHeaders.indexOf('Standardized Customer Satisfaction Score')]);
+                reportData.passCriteria = String(row[reportHeaders.indexOf('Pass Criteria')]).toLowerCase().trim();
+                reportData.totalScore = Number(row[reportHeaders.indexOf('Standardized Total Score')]);
+                break;
+            }
+        }
+
+        chartsCompleted = 0;
+        totalChartsToAnimate = metrics.length * nodes.length;
+        window.reportDataToShow = reportData;
+
+        metrics.forEach(metric => {
+            nodes.forEach(node => {
+                const chartKey = `chart-node-${node}-${metric.toLowerCase()}`;
+                if (document.getElementById(chartKey)) {
+                    drawAnimatedChart(chartKey, chartData[chartKey].data, chartData[chartKey].title, yAxisSettings[metric], true);
+                }
+            });
+        });
+
+    } catch (error) {
+        console.error('Error:', error);
+        alert('Failed to load data.');
+        simButton.textContent = 'Run Simulation';
+    }
+}
+
+     
+      const welcomeText = `Welcome to Water Works: A Water Distribution Network Game!
+      
+Explore the network map to understand your system's layout, communities' water usage patterns, and operational constraints. Adjust key parameters like initial chlorine levels and water rates to optimize your strategy.
+
+Run the simulation to observe how your decisions impact metrics such as demand, pressure, and water quality. Analyze results through detailed charts and aim to balance customer satisfaction, operational efficiency, and financial sustainability.
+
+Refine your strategy and strive to become the top water system operator!`;
+
+// Show welcome modal after splash screen
+setTimeout(() => {
+    const modal = document.querySelector('.welcome-modal');
+    modal.style.display = 'flex';
+    typeText();
+}, 3000);
+
+// Typing animation
+function typeText() {
+    const text = welcomeText;
+    const element = document.querySelector('.typing-text');
+    let i = 0;
+    
+   function typing() {
+   if (i < text.length) {
+       element.innerHTML += text.charAt(i) === '\n' ? '<br>' : text.charAt(i); // Single line break
+       i++;
+       setTimeout(typing, 20);
+   }
+}
+    typing();
+}
+
+// Close welcome modal
+function closeWelcome() {
+    document.querySelector('.welcome-modal').style.display = 'none';
+}
+
+    // Wait for the Google Charts library to load
+    google.charts.setOnLoadCallback(() => {
+        console.log('Google Charts loaded and ready');
+    });
+</script>
+</body>
+</html>
+<!-- partial -->
+  
+</body>
+</html>
